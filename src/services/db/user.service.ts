@@ -1,4 +1,3 @@
-import { get } from "http";
 import User from "../../models/user.model";
 import { IUser } from "../../types/db.types";
 

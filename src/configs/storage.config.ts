@@ -1,6 +1,6 @@
 import multer from "multer";
 import { Request } from "express";
-
+import path from "path";
 export const imagesStorageConfig = () => {
   const storage: multer.StorageEngine = multer.diskStorage({
     destination: (
@@ -8,7 +8,8 @@ export const imagesStorageConfig = () => {
       file: Express.Multer.File,
       cb: (error: Error | null, destination: string) => void
     ) => {
-      cb(null, "src/uploads/images");
+      const uploadPath = path.resolve(__dirname, "../../uploads/images");
+      cb(null, uploadPath);
     },
     filename: (
       req: Request,

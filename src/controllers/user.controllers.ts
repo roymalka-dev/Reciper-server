@@ -73,6 +73,8 @@ export const userControllers = {
       });
     }
 
+    //delte recipe from user.recipes
+    await userService.deleteRecipeFromUser(id, userId);
     try {
       const recipe = await recipeService.getRecipesByIds([id]);
       await recipeService.deleteRecipe(id);

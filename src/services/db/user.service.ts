@@ -92,4 +92,24 @@ export const userService = {
       throw error;
     }
   },
+  deleteRecipeFromUser: async (
+    userId: string,
+    recipeId: string
+  ): Promise<IUser> => {
+    try {
+      const user = await User.findByIdAndUpdate(
+        userId,
+        { $pull: { recipes: recipeId } },
+        { new: true, runValidators: true }
+      );
+
+      if (!user) {
+        throw new Error(`User with ID ${userId} not found`);
+      }
+
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

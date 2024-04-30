@@ -25,10 +25,6 @@ jobs:
 
     - run: npm run build 
 
-    # Restore uploads directory after build
-    - name: Restore uploads directory
-      run: rsync -av --exclude='*.tmp' backups/uploads/ src/uploads/
-
     - run: |
         touch .env
         echo "${{ secrets.PROD_SECRET }}" > .env

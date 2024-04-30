@@ -14,26 +14,24 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Set up Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     
-   
-    - run: npm ci  # This step was missing from your list; usually needed before building
+    - name: Install dependencies
+      run: npm ci
 
-    - run: npm run build 
+    - name: Build project
+      run: npm run build 
 
-    - run: |
-        touch .env
-        echo "${{ secrets.PROD_SECRET }}" > .env
-    - name: Restart application
-      run: pm2 restart dist/server.js
+    - name: Set up environment file
+      run: |
+        echo "PROD_SECRET=${{ secrets.PROD_SECRET }}" > .env
 
-    - name: Restart pm2
-    - run: |
-       pm2 save
+    - name: Restart application using PM2
+      run: |
+        pm2 restart dist/server.js
+        pm2 save
 
-  
-      

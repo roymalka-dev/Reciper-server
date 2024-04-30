@@ -19,7 +19,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-     
+    
    
     - run: npm ci  # This step was missing from your list; usually needed before building
 
@@ -28,6 +28,5 @@ jobs:
     - run: |
         touch .env
         echo "${{ secrets.PROD_SECRET }}" > .env
-
     - name: Restart application
       run: pm2 restart dist/server.js

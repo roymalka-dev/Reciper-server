@@ -20,12 +20,12 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
 
-    # Save uploads directory if it exists
-    - name: Save uploads directory
+    # Backup uploads/images directory if it exists
+    - name: Backup uploads/images directory
       run: |
         mkdir -p backup/uploads
-        if [ -d "uploads" ]; then
-          mv uploads backup/
+        if [ -d "uploads/images" ]; then
+          mv uploads/images backup/uploads/
         fi
 
     - run: npm ci
@@ -36,11 +36,12 @@ jobs:
         touch .env
         echo "${{ secrets.PROD_SECRET }}" > .env
 
-    # Restore uploads directory
-    - name: Restore uploads directory
+    # Restore uploads/images directory
+    - name: Restore uploads/images directory
       run: |
-        if [ -d "backup/uploads" ]; then
-          mv backup/uploads .
+        mkdir -p uploads
+        if [ -d "backup/uploads/images" ]; then
+          mv backup/uploads/images uploads/
         fi
 
     - name: Restart application

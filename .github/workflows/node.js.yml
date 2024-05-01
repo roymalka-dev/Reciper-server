@@ -9,7 +9,7 @@ jobs:
     runs-on: self-hosted
     strategy:
       matrix:
-        node-version: [20.x]  # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version: [20.x]
 
     steps:
     - uses: actions/checkout@v3
@@ -19,16 +19,29 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    
-   
-    - run: npm ci  # This step was missing from your list; usually needed before building
 
-    - run: npm run build 
+    # Save uploads directory if it exists
+    - name: Save uploads directory
+      run: |
+        mkdir -p backup/uploads
+        if [ -d "uploads" ]; then
+          mv uploads backup/
+        fi
+
+    - run: npm ci
+
+    - run: npm run build
 
     - run: |
         touch .env
         echo "${{ secrets.PROD_SECRET }}" > .env
-                
+
+    # Restore uploads directory
+    - name: Restore uploads directory
+      run: |
+        if [ -d "backup/uploads" ]; then
+          mv backup/uploads .
+        fi
+
     - name: Restart application
       run: pm2 restart dist/server.js
-        

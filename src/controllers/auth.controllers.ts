@@ -19,7 +19,7 @@ export const authControllers = {
 
       const token = jwt.sign(
         { id: user._id, email: user.email },
-        process.env.JWT_SECRET ?? "secret",
+        process.env.JWT_SECRET ?? "top-secret",
         {
           expiresIn: "12h",
         }

@@ -48,12 +48,10 @@ export const recipeControllers = {
 
       return res.status(200).json({ data: data });
     } catch (error) {
-      return res
-        .status(500)
-        .json({
-          message: "Failed to fetch recipes due to an internal error.",
-          error,
-        });
+      return res.status(500).json({
+        message: "Failed to fetch recipes due to an internal error.",
+        error,
+      });
     }
   },
   getRecipeById: async (req: Request, res: Response) => {

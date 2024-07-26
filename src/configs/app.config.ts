@@ -56,5 +56,7 @@ export const appConfig = (app: Application) => {
     res.send("RecipeAI server API");
   });
 
-  process.env.NODE_ENV === "DEV" && app.use(morgan("common"));
+  app.use(morgan("common"));
+
+  //process.env.NODE_ENV === "DEV" &&
 };
